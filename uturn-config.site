@@ -1,0 +1,13 @@
+# This config.site sets libdir to lib64 depending on whether
+# /sbin/init is a 32 or 64 bit ELF binary.  That gives the correct
+# result in 32 bit containers running on x86_64 kernels.
+
+if test "$prefix" = /usr; then
+    test "$sysconfdir" = '${prefix}/etc' && sysconfdir=/etc
+    test "$sharedstatedir" = '${prefix}/com' && sharedstatedir=/var
+    test "$localstatedir" = '${prefix}/var' && localstatedir=/var
+
+    if readelf -h /sbin/init | grep ELF64; then
+        test "$libdir" = '${exec_prefix}/lib' && libdir='${exec_prefix}/lib64'
+    fi
+fi
