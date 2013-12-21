@@ -1,0 +1,13 @@
+TODO
+
+ - Figure out how to shut down container properly?  Is sudo halt ok?
+
+ - Get build results back out, present in html and irc.
+
+ - Muliple build containers with multiple configs.
+
+ - Deploy in-container bits as rpm.
+
+ - Push to main repo on success.
+
+ - Watchdog for handling test case deadlocks
