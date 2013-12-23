@@ -1,18 +1,21 @@
 #!/bin/sh
 
-source /run/uturn/config.sh
-repo_path=$top/$repo
+top=/run/uturn
+source $top/config.sh
+result=$top/result.sh
 
-build_path=$top/build
+export repo_path=$top/$repo
+export build_path=$top/build
 mkdir $build_path
-source /run/uturn/build-${repo}.sh
+
+/bin/time -o $result -f "build_time=%E" sh $top/build-${repo}.sh
 
 if [ $? -eq 0 ]; then
-    echo '***' Build of $repo, branch $ref: SUCCESS
-    echo success > /run/uturn/result-fifo
+    echo "status=success" >> $result
+    echo success > $top/result-fifo
 else
-    echo '***' Build of $repo, branch $ref: FAIL
-    echo fail > /run/uturn/result-fifo
+    echo "status=fail" >> $result
+    echo fail > $top/result-fifo
 fi
 
 sudo poweroff
