@@ -1,6 +1,12 @@
+REMEMBER
+
+ - boot with audit=0
+
 TODO
 
  - Figure out how to shut down container properly?  Is sudo halt ok?
+
+ - Close bugs marked as Closes-bug: <link>
 
  - Get build results back out, present in html and irc.
 
@@ -11,3 +17,10 @@ TODO
  - Push to main repo on success.
 
  - Watchdog for handling test case deadlocks
+
+ - Do we need different containers for wayland/weston?
+
+ - How do we pick container for a build?
+
+ - build weston 1.3.x against wayland master to make sure we don't
+   break backwards compat.

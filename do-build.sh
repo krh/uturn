@@ -6,9 +6,11 @@ result=$top/result.sh
 
 export repo_path=$top/$repo
 export build_path=$top/build
+export install_path=$top/install
 mkdir $build_path
 
-/bin/time -o $result -f "build_time=%E" sh $top/build-${repo}.sh
+/bin/time -o $result -f "build_time=%E" \
+    bash -c "source $top/build-${repo}.sh; build"
 
 if [ $? -eq 0 ]; then
     echo "status=success" >> $result

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ref=${2?master}
+ref=${2:-master}
 
 cd $1
 
