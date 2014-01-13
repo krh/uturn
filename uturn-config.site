@@ -7,7 +7,7 @@ if test "$prefix" = /usr; then
     test "$sharedstatedir" = '${prefix}/com' && sharedstatedir=/var
     test "$localstatedir" = '${prefix}/var' && localstatedir=/var
 
-    if readelf -h /sbin/init | grep ELF64; then
+    if readelf -h /sbin/init | grep -q ELF64; then
         test "$libdir" = '${exec_prefix}/lib' && libdir='${exec_prefix}/lib64'
     fi
 fi

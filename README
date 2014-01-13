@@ -1,0 +1,39 @@
+uturn is a continuous integration system.  While primitive in some
+ways, it uses advanced features of modern Linux to manage build roots
+efficiently and cleanly.  Build roots are maintained as btrfs
+subvolumes and projects are built and tested in a btrfs snapshot of a
+pristine build root.  To ensure maximum isolation from the host
+system, the build roots are activated using systemd-nspawn, which also
+brings up enough of the system that many tests can run inside the
+container.
+
+The main build script is uturn-builder.sh, which typically runs in a
+daemon mode, rebuilding projects when a new upstream version is
+committed.  This mode relies of notification over ssh and the git repo
+must be configured to run the uturn-post-receive hook.  If
+uturn-bot.sh is running, uturn-builder.sh will use it to log the build
+status to IRC.  If a build config file specifies an upstream, the
+builder will try to push into the upstream repo if the build was
+successful.
+
+
+The core build system is independent of any package manager, but the
+uturn repo has a couple of helper scripts for creating build roots
+using yum and Fedora:
+
+	cache-rpms.sh		This script downloads and caches
+				RPMs needed to create a given install root.
+
+	create-container.sh	This creates a build root from the local
+				cached RPMs.
+
+both tools source a simple config file that defines the build root.
+The config file is just a few variable assignments:
+
+	name		Name of the build root
+	rpms		The RPMs that should be available in the build root
+	release		Fedora release version 
+
+The create repo script configures the build root and installs the
+systemd uturn target which systemd-nspawn will boot into to build the
+project.

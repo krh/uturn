@@ -4,20 +4,21 @@ top=/run/uturn
 source $top/config.sh
 result=$top/result.sh
 
-export repo_path=$top/$repo
-export build_path=$top/build
-export install_path=$top/install
+repo_path=$top/$repo
+build_path=$top/build
+install_path=$top/install
 mkdir $build_path
 
-/bin/time -o $result -f "build_time=%E" \
-    bash -c "source $top/build-${repo}.sh; build"
+SECONDS=0
+source $top/build-${repo}.sh
 
-if [ $? -eq 0 ]; then
-    echo "status=success" >> $result
-    echo success > $top/result-fifo
+if build; then
+    status=success
 else
-    echo "status=fail" >> $result
-    echo fail > $top/result-fifo
+    status=fail
 fi
+
+TZ=UTC printf "status=$status\nbuild_time=%(%M:%S)T\n" $SECONDS \
+    >$top/result-fifo
 
 sudo poweroff
