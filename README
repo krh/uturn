@@ -32,7 +32,10 @@ The config file is just a few variable assignments:
 
 	name		Name of the build root
 	rpms		The RPMs that should be available in the build root
-	release		Fedora release version 
+	release		Fedora release version
+	arch		The arch of the RPMs that should be available in the build root
+	buildarch	The buildarch of the RPMs that should be available in the build root
+	repo		The base name of the local download repo
 
 The create repo script configures the build root and installs the
 systemd uturn target which systemd-nspawn will boot into to build the
