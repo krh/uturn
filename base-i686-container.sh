@@ -1,5 +1,5 @@
-arch=x86_64
-basearch=x86_64
+arch=i686
+basearch=i386
 release=20
 name=base-$arch
 repo=fedora
