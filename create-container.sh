@@ -26,6 +26,8 @@ name=Local Repo
 baseurl=file://$PWD/rpms/$repo-$release-$arch
 EOF
 
+uturnpath=$(readlink -f $(dirname $0))
+
 case $1 in
     download)
 	yumdownloader -y --releasever=$release --installroot=$path	\
@@ -46,10 +48,10 @@ case $1 in
 	    -c local.$repo-$release-$arch.repo --enablerepo=local	\
 	    install $rpms
 
-	cp uturn-builder.service $path/etc/systemd/system
-	cp uturn-config.site $path/usr/share/config.site
-	install  setup-container.sh $path/root
-	install -D do-build.sh $path/lib/uturn/do-build.sh
+	cp $uturnpath/uturn-builder.service $path/etc/systemd/system
+	cp $uturnpath/uturn-config.site $path/usr/share/config.site
+	install $uturnpath/setup-container.sh $path/root
+	install -D $uturnpath/do-build.sh $path/lib/uturn/do-build.sh
 	systemd-nspawn -D $path /root/setup-container.sh
 	;;
 
